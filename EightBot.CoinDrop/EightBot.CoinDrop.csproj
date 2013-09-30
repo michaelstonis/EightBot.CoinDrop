@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
