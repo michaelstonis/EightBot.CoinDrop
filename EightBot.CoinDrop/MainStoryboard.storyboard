@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="11">
+            <objects>
+                <navigationController id="3" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="47V-OQ-eBo" kind="relationship" relationship="rootViewController" id="POh-bW-aeC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1" y="64"/>
+        </scene>
+        <!--Coin Drop View Controller - Coin Drop-->
+        <scene sceneID="fAJ-xh-kX3">
+            <objects>
+                <viewController storyboardIdentifier="CoinDrop" id="47V-OQ-eBo" customClass="CoinDropViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Ja-yZ-iXL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ballGrey.png" id="UxI-sZ-Lgm">
+                                <rect key="frame" x="145" y="77" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nb8-vw-cQS">
+                                <rect key="frame" x="66" y="68" width="190" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Drop" backgroundImage="buttonDefault.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="paddleBlu.png" id="ZZL-KC-b2w">
+                                <rect key="frame" x="126" y="419" width="69" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="element_green_polygon_glossy.png" id="IQP-zP-OCs">
+                                <rect key="frame" x="20" y="254" width="48" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="element_red_polygon_glossy.png" id="IIZ-P0-2Ok">
+                                <rect key="frame" x="252" y="182" width="48" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="element_yellow_polygon_glossy.png" id="R6Q-Lq-vyU">
+                                <rect key="frame" x="252" y="331" width="48" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Coin Drop" id="jjY-yp-Spb"/>
+                    <connections>
+                        <outlet property="btnDropCoin" destination="nb8-vw-cQS" id="crK-ZU-tFx"/>
+                        <outlet property="ivCoinCatcher" destination="ZZL-KC-b2w" id="jid-gX-3gL"/>
+                        <outlet property="ivGoldCoin" destination="UxI-sZ-Lgm" id="jjx-eN-wrq"/>
+                        <outlet property="ivGreenGem" destination="IQP-zP-OCs" id="dbc-vE-A3A"/>
+                        <outlet property="ivRedGem" destination="IIZ-P0-2Ok" id="USq-Qm-Cw8"/>
+                        <outlet property="ivYellowGem" destination="R6Q-Lq-vyU" id="MOK-C9-6GE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h0M-bO-erf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="426" y="64"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ballGrey.png" width="22" height="22"/>
+        <image name="buttonDefault.png" width="190" height="49"/>
+        <image name="element_green_polygon_glossy.png" width="48" height="46"/>
+        <image name="element_red_polygon_glossy.png" width="48" height="46"/>
+        <image name="element_yellow_polygon_glossy.png" width="48" height="46"/>
+        <image name="paddleBlu.png" width="104" height="24"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
