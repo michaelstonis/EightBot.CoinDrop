@@ -11,17 +11,16 @@ namespace EightBot.CoinDrop
 {
 	public partial class CoinDropViewController : UIViewController
 	{
-		public UIDynamicAnimator Animator { get; private set; }
+		private	UIDynamicAnimator animator;
 
-		private UICollisionBehavior CoinCollider, ContainerCollision;
+		private UICollisionBehavior coinCollision
+									, containerCollision = new UICollisionBehavior () { TranslatesReferenceBoundsIntoBoundary = true };
 
-		private UIPushBehavior CoinCatcherPush, RedGemPush, GreenGemPush, YellowGemPush;
+		private UIPushBehavior coinCatcherPush, redGemPush, greenGemPush, yellowGemPush;
 
-		private UIGravityBehavior CoinGravity { get; set; }
+		private UIGravityBehavior coinGravity = new UIGravityBehavior ();
 
-		private RectangleF OriginalCoinLocation;
-
-		private RectangleF OriginalCoinCatcherLocation { get; set;}
+		private RectangleF originalCoinLocation;
 
 		Boolean IsSuccess;
 
@@ -39,102 +38,89 @@ namespace EightBot.CoinDrop
 
 			btnDropCoin.TouchUpInside += DropCoinTouchUpInside;
 
-			Animator = new UIDynamicAnimator(this.View);
+			animator = new UIDynamicAnimator(this.View);
 
-			CoinGravity = new UIGravityBehavior ();
+			coinCatcherPush = new UIPushBehavior (new []{ivCoinCatcher}, UIPushBehaviorMode.Continuous);
+			coinCatcherPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (0.25f, 0.0f);
 
-			CoinCatcherPush = new UIPushBehavior (new []{ivCoinCatcher}, UIPushBehaviorMode.Continuous);
-			CoinCatcherPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (0.25f, 0.0f);
+			redGemPush = new UIPushBehavior (new []{ivRedGem}, UIPushBehaviorMode.Continuous);
+			redGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (-0.15f, 0.0f);
 
-			RedGemPush = new UIPushBehavior (new []{ivRedGem}, UIPushBehaviorMode.Continuous);
-			RedGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (-0.15f, 0.0f);
+			yellowGemPush = new UIPushBehavior (new []{ivYellowGem}, UIPushBehaviorMode.Continuous);
+			yellowGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (0.35f, 0.0f);
 
-			YellowGemPush = new UIPushBehavior (new []{ivYellowGem}, UIPushBehaviorMode.Continuous);
-			YellowGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (0.35f, 0.0f);
+			greenGemPush = new UIPushBehavior (new []{ivGreenGem}, UIPushBehaviorMode.Continuous);
+			greenGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (-0.2f, 0.0f);
 
-			GreenGemPush = new UIPushBehavior (new []{ivGreenGem}, UIPushBehaviorMode.Continuous);
-			GreenGemPush.PushDirection = new MonoTouch.CoreGraphics.CGVector (-0.2f, 0.0f);
+foreach (var item in View.Subviews) {
+	if (item is UIImageView) {
+		containerCollision.AddItem (item);
+	}
+}
 
-			ContainerCollision = new UICollisionBehavior () { TranslatesReferenceBoundsIntoBoundary = true };
+containerCollision.BeganBoundaryContact += 
+	(sender, e) => {
+		
 
-			foreach (var item in View.Subviews) {
-				if (item is UIImageView) {
-					ContainerCollision.AddItem (item);
-				}
-			}
+		if(e.DynamicItem == ivCoinCatcher)
+			coinCatcherPush.PushDirection
+				= new MonoTouch.CoreGraphics.CGVector(-coinCatcherPush.PushDirection.dx, -coinCatcherPush.PushDirection.dy);
 
-			ContainerCollision.BeganBoundaryContact += 
-				(sender, e) => {
-					
-					BeginInvokeOnMainThread(() =>{
+		if(e.DynamicItem == ivRedGem)
+			redGemPush.PushDirection
+				= new MonoTouch.CoreGraphics.CGVector(-redGemPush.PushDirection.dx, -redGemPush.PushDirection.dy);
 
-						if(e.DynamicItem == ivCoinCatcher)
-							CoinCatcherPush.PushDirection
-								= new MonoTouch.CoreGraphics.CGVector(-CoinCatcherPush.PushDirection.dx, CoinCatcherPush.PushDirection.dy);
-
-						if(e.DynamicItem == ivRedGem)
-							RedGemPush.PushDirection
-								= new MonoTouch.CoreGraphics.CGVector(-RedGemPush.PushDirection.dx, RedGemPush.PushDirection.dy);
-
-
-						if(e.DynamicItem == ivYellowGem)
-							YellowGemPush.PushDirection
-								= new MonoTouch.CoreGraphics.CGVector(-YellowGemPush.PushDirection.dx, YellowGemPush.PushDirection.dy);
+		if(e.DynamicItem == ivYellowGem)
+			yellowGemPush.PushDirection
+				= new MonoTouch.CoreGraphics.CGVector(-yellowGemPush.PushDirection.dx, -yellowGemPush.PushDirection.dy);
 
 
-						if(e.DynamicItem == ivGreenGem)
-							GreenGemPush.PushDirection
-								= new MonoTouch.CoreGraphics.CGVector(-GreenGemPush.PushDirection.dx, GreenGemPush.PushDirection.dy);
+		if(e.DynamicItem == ivGreenGem)
+			greenGemPush.PushDirection
+				= new MonoTouch.CoreGraphics.CGVector(-greenGemPush.PushDirection.dx, -greenGemPush.PushDirection.dy);
 
-						if(e.DynamicItem == ivGoldCoin){
-							Task.Delay(500);
-							btnDropCoin.Enabled = true;
-							ResetCoin();
-						}
-					});
-				};
+		if(e.DynamicItem == ivGoldCoin){
+			ResetCoin();
+		}
+	};
 
-			CoinCollider = new UICollisionBehavior (ivCoinCatcher, ivGoldCoin);
+coinCollision = new UICollisionBehavior (ivCoinCatcher, ivGoldCoin);
 
-			CoinCollider.BeganContact += 
-				(sender, e) => {
-				if(!IsSuccess){
-					IsSuccess = true;
+coinCollision.BeganContact += 
+	(sender, e) => {
 
-					ResetCoin();
+	if(!IsSuccess){
+		IsSuccess = true;
 
-					BeginInvokeOnMainThread(() => btnDropCoin.Enabled = true);
+		ResetCoin();
 
-					var message = new UIAlertView("A Winner Is You", String.Empty, null, null, new [] { "Great!" });
-					message.Show();
-				}
-			};
+		var message = new UIAlertView("A Winner Is You", String.Empty, null, null, new [] { "Great!" });
+		message.Show();
+	}
+};
 
-			OriginalCoinLocation = new RectangleF(new PointF(ivGoldCoin.Frame.X, ivGoldCoin.Frame.Y), new SizeF(ivGoldCoin.Frame.Height, ivGoldCoin.Frame.Width));
+originalCoinLocation = new RectangleF(new PointF(ivGoldCoin.Frame.X, ivGoldCoin.Frame.Y), new SizeF(ivGoldCoin.Frame.Height, ivGoldCoin.Frame.Width));
 
-			Animator.AddBehaviors (new UIDynamicBehavior[]{ CoinCollider, CoinCatcherPush, ContainerCollision, CoinGravity, RedGemPush, YellowGemPush, GreenGemPush });
+animator.AddBehaviors (new UIDynamicBehavior[]{ coinCollision, coinCatcherPush, containerCollision, coinGravity, redGemPush, yellowGemPush, greenGemPush });
 		}
 
-		void DropCoinTouchUpInside (object sender, EventArgs e)
+		async void DropCoinTouchUpInside (object sender, EventArgs e)
 		{
 			IsSuccess = false;
 
 			btnDropCoin.Enabled = false;
-			BeginInvokeOnMainThread(() => {
-				CoinGravity.AddItem (ivGoldCoin);
-			});
+			coinGravity.AddItem (ivGoldCoin);
+			await Task.Delay(500);
+			btnDropCoin.Enabled = true;
 		}
 
 		private void ResetCoin(){
 
-			BeginInvokeOnMainThread(() => {
-				CoinGravity.RemoveItem(ivGoldCoin);
+			coinGravity.RemoveItem(ivGoldCoin);
 
-				ivGoldCoin.Frame = OriginalCoinLocation;
+			ivGoldCoin.Frame = originalCoinLocation;
 
-				Animator.UpdateItemUsingCurrentState (ivGoldCoin);
-			});
-
+			animator.UpdateItemUsingCurrentState (ivGoldCoin);
 
 		}
 	}

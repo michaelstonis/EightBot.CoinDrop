@@ -24,7 +24,7 @@
             <objects>
                 <viewController storyboardIdentifier="CoinDrop" id="47V-OQ-eBo" customClass="CoinDropViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4Ja-yZ-iXL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="ballGrey.png" id="UxI-sZ-Lgm">
@@ -83,6 +83,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>

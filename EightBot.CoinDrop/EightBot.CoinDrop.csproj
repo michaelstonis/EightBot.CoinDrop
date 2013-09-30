@@ -127,5 +127,6 @@
     <BundleResource Include="Resources\element_red_polygon_glossy.png" />
     <BundleResource Include="Resources\element_yellow_polygon_glossy.png" />
     <BundleResource Include="Resources\goldCoin&#x10;.png" />
+    <BundleResource Include="Resources\Parallax100.png" />
   </ItemGroup>
 </Project>
